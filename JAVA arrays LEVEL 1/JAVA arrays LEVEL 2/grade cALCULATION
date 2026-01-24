@@ -1,0 +1,22 @@
+import java.util.Scanner;
+
+class StudentGrade {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        double[] percent = new double[n];
+        char[] grade = new char[n];
+
+        for (int i = 0; i < n; i++) {
+            double p = sc.nextDouble(), c = sc.nextDouble(), m = sc.nextDouble();
+            if (p < 0 || c < 0 || m < 0) { i--; continue; }
+            percent[i] = (p + c + m) / 3;
+            grade[i] = percent[i] >= 90 ? 'A' :
+                       percent[i] >= 75 ? 'B' :
+                       percent[i] >= 60 ? 'C' : 'D';
+        }
+
+        for (int i = 0; i < n; i++)
+            System.out.println(percent[i] + " " + grade[i]);
+    }
+}
