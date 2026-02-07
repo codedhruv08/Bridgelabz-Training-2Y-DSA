@@ -1,0 +1,64 @@
+import java.util.*;
+
+class Node {
+    String name;
+    int size; // valid only if file
+    boolean isFile;
+    List<Node> children;
+
+    Node(String name, int size, boolean isFile) {
+        this.name = name;
+        this.size = size;
+        this.isFile = isFile;
+        this.children = new ArrayList<>();
+    }
+}
+
+public class DirectorySizeCalculator {
+
+    static int getDirectorySize(Node node, Set<Node> visited) {
+        // Handle cycles (symbolic links)
+        if (visited.contains(node)) return 0;
+        visited.add(node);
+
+        // Base case: file
+        if (node.isFile) {
+            return node.size;
+        }
+
+        int total = 0;
+        // Recursive case: directory
+        for (Node child : node.children) {
+            total += getDirectorySize(child, visited);
+        }
+        return total;
+    }
+
+    public static void main(String[] args) {
+        // Build directory structure
+        Node mainJava = new Node("main.java", 100, true);
+        Node utilsJava = new Node("utils.java", 50, true);
+        Node src = new Node("src", 0, false);
+        src.children.add(mainJava);
+        src.children.add(utilsJava);
+
+        Node readme = new Node("readme.txt", 10, true);
+        Node setup = new Node("setup.pdf", 200, true);
+        Node guides = new Node("guides", 0, false);
+        guides.children.add(setup);
+
+        Node docs = new Node("docs", 0, false);
+        docs.children.add(readme);
+        docs.children.add(guides);
+
+        Node config = new Node("config.xml", 20, true);
+
+        Node project = new Node("project", 0, false);
+        project.children.add(src);
+        project.children.add(docs);
+        project.children.add(config);
+
+        System.out.println("Total Size = " +
+                getDirectorySize(project, new HashSet<>()) + " KB");
+    }
+}
