@@ -1,0 +1,40 @@
+public class NQueensOneSolution {
+
+    static int n = 4;
+    static int[] board = new int[n];
+    static boolean[] col = new boolean[n];
+    static boolean[] diag1 = new boolean[2*n-1];
+    static boolean[] diag2 = new boolean[2*n-1];
+
+    static boolean solve(int row) {
+        if (row == n) {
+            printBoard();
+            return true; // stop after one solution
+        }
+
+        for (int c = 0; c < n; c++) {
+            if (!col[c] && !diag1[row + c] && !diag2[row - c + n - 1]) {
+                board[row] = c;
+                col[c] = diag1[row + c] = diag2[row - c + n - 1] = true;
+
+                if (solve(row + 1)) return true;
+
+                col[c] = diag1[row + c] = diag2[row - c + n - 1] = false;
+            }
+        }
+        return false;
+    }
+
+    static void printBoard() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(board[i] == j ? "Q " : ". ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        solve(0);
+    }
+}
