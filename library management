@@ -1,0 +1,39 @@
+class Library {
+
+    static class Node {
+        String title, author, genre, status;
+        int id;
+        Node next, prev;
+
+        Node(String t, String a, String g, int id, String s) {
+            title = t;
+            author = a;
+            genre = g;
+            this.id = id;
+            status = s;
+        }
+    }
+
+    Node head, tail;
+
+    void addBook(String t, String a, String g, int id, String s) {
+        Node newNode = new Node(t, a, g, id, s);
+        if (head == null) {
+            head = tail = newNode;
+            return;
+        }
+        tail.next = newNode;
+        newNode.prev = tail;
+        tail = newNode;
+    }
+
+    int countBooks() {
+        int count = 0;
+        Node temp = head;
+        while (temp != null) {
+            count++;
+            temp = temp.next;
+        }
+        return count;
+    }
+}
