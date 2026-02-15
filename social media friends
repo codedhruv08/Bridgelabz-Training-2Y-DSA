@@ -1,0 +1,40 @@
+class SocialMedia {
+
+    static class User {
+        int id;
+        String name;
+        User next;
+        java.util.List<Integer> friends = new java.util.ArrayList<>();
+
+        User(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+    }
+
+    User head;
+
+    void addUser(int id, String name) {
+        User newUser = new User(id, name);
+        newUser.next = head;
+        head = newUser;
+    }
+
+    void addFriend(int id1, int id2) {
+        User u1 = findUser(id1);
+        User u2 = findUser(id2);
+        if (u1 != null && u2 != null) {
+            u1.friends.add(id2);
+            u2.friends.add(id1);
+        }
+    }
+
+    User findUser(int id) {
+        User temp = head;
+        while (temp != null) {
+            if (temp.id == id) return temp;
+            temp = temp.next;
+        }
+        return null;
+    }
+}
