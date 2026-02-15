@@ -1,0 +1,47 @@
+class RoundRobin {
+
+    static class Node {
+        int pid, burst;
+        Node next;
+
+        Node(int pid, int burst) {
+            this.pid = pid;
+            this.burst = burst;
+        }
+    }
+
+    Node head = null;
+
+    void addProcess(int pid, int burst) {
+        Node newNode = new Node(pid, burst);
+
+        if (head == null) {
+            head = newNode;
+            newNode.next = head;
+            return;
+        }
+
+        Node temp = head;
+        while (temp.next != head)
+            temp = temp.next;
+
+        temp.next = newNode;
+        newNode.next = head;
+    }
+
+    void simulate(int quantum) {
+        if (head == null) return;
+
+        Node temp = head;
+        do {
+            if (temp.burst > quantum) {
+                temp.burst -= quantum;
+                System.out.println("Process " + temp.pid + " executed");
+            } else {
+                System.out.println("Process " + temp.pid + " completed");
+                temp.burst = 0;
+            }
+            temp = temp.next;
+        } while (temp != head);
+    }
+}
