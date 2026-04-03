@@ -1,0 +1,14 @@
+import java.util.*;
+
+class SafeQueuePolling {
+
+    public static void main(String[] args) {
+        Queue<Integer> q = new LinkedList<>();
+
+        if (!q.isEmpty()) {
+            System.out.println(q.poll());
+        } else {
+            System.out.println("Queue is empty, cannot poll");
+        }
+    }
+}
