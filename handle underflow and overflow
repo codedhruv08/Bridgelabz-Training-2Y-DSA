@@ -1,0 +1,26 @@
+import java.util.*;
+
+class QueueUnderflowOverflow {
+
+    public static void main(String[] args) {
+        Queue<Integer> q = new ArrayDeque<>();
+
+        // Underflow check
+        if (q.isEmpty()) {
+            System.out.println("Queue is empty");
+        } else {
+            q.poll();
+        }
+
+        // Overflow (fixed size example)
+        int capacity = 2;
+        Queue<Integer> fixedQueue = new ArrayBlockingQueue<>(capacity);
+
+        fixedQueue.add(1);
+        fixedQueue.add(2);
+
+        if (fixedQueue.remainingCapacity() == 0) {
+            System.out.println("Queue is full");
+        }
+    }
+}
