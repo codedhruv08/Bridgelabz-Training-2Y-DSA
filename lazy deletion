@@ -1,0 +1,24 @@
+import java.util.*;
+
+class LazyDeletionPQ {
+
+    public static void main(String[] args) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        Set<Integer> deleted = new HashSet<>();
+
+        pq.add(10);
+        pq.add(20);
+        pq.add(30);
+
+        // Mark 20 as deleted
+        deleted.add(20);
+
+        while (!pq.isEmpty()) {
+            int top = pq.poll();
+
+            if (deleted.contains(top)) continue;
+
+            System.out.println(top);
+        }
+    }
+}
