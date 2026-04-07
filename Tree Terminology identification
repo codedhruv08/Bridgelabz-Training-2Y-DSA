@@ -1,0 +1,58 @@
+class Problem1_TreeTerminology {
+
+    static class Node {
+        String data;
+        Node left, right;
+
+        Node(String data) {
+            this.data = data;
+        }
+    }
+
+    // Height of tree
+    static int height(Node root) {
+        if (root == null) return -1; // edges count
+        return 1 + Math.max(height(root.left), height(root.right));
+    }
+
+    // Depth of a node
+    static int depth(Node root, String target, int level) {
+        if (root == null) return -1;
+        if (root.data.equals(target)) return level;
+
+        int left = depth(root.left, target, level + 1);
+        if (left != -1) return left;
+
+        return depth(root.right, target, level + 1);
+    }
+
+    // Print leaf nodes
+    static void printLeaves(Node root) {
+        if (root == null) return;
+
+        if (root.left == null && root.right == null) {
+            System.out.print(root.data + " ");
+        }
+
+        printLeaves(root.left);
+        printLeaves(root.right);
+    }
+
+    public static void main(String[] args) {
+        Node CEO = new Node("CEO");
+        CEO.left = new Node("CTO");
+        CEO.right = new Node("CFO");
+
+        CEO.left.left = new Node("Dev Lead");
+        CEO.left.right = new Node("HR");
+
+        CEO.left.left.left = new Node("Dev1");
+        CEO.left.left.right = new Node("Dev2");
+
+        System.out.print("Leaf Nodes: ");
+        printLeaves(CEO);
+
+        System.out.println("\nHeight: " + height(CEO));
+        System.out.println("Depth of Dev Lead: " + depth(CEO, "Dev Lead", 0));
+    }
+}
