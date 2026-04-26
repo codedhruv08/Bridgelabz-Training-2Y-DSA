@@ -1,0 +1,49 @@
+import java.util.*;
+
+public class IslandsBFS {
+    static int[][] grid = {
+        {1,1,0,0,0},
+        {1,1,0,0,1},
+        {0,0,1,0,1},
+        {0,0,0,1,1}
+    };
+
+    static int n = grid.length, m = grid[0].length;
+
+    public static void bfs(int i, int j) {
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{i,j});
+        grid[i][j] = 0;
+
+        int[] dx = {1,-1,0,0};
+        int[] dy = {0,0,1,-1};
+
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+
+            for (int k=0;k<4;k++) {
+                int ni = curr[0] + dx[k];
+                int nj = curr[1] + dy[k];
+
+                if (ni>=0 && nj>=0 && ni<n && nj<m && grid[ni][nj]==1) {
+                    grid[ni][nj] = 0;
+                    q.add(new int[]{ni,nj});
+                }
+            }
+        }
+    }
+
+    public static int countIslands() {
+        int count = 0;
+
+        for (int i=0;i<n;i++) {
+            for (int j=0;j<m;j++) {
+                if (grid[i][j] == 1) {
+                    bfs(i,j);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+}
