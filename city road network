@@ -1,0 +1,74 @@
+import java.util.*;
+
+class Pair {
+    String node;
+    int weight;
+    Pair(String n, int w) {
+        node = n;
+        weight = w;
+    }
+}
+
+public class CityGraph {
+    static Map<String, List<Pair>> graph = new HashMap<>();
+
+    public static void addEdge(String u, String v, int w, boolean bidir) {
+        graph.putIfAbsent(u, new ArrayList<>());
+        graph.get(u).add(new Pair(v, w));
+
+        if (bidir) {
+            graph.putIfAbsent(v, new ArrayList<>());
+            graph.get(v).add(new Pair(u, w));
+        }
+    }
+
+    // 2. Reachable nodes (DFS)
+    public static void dfs(String node, Set<String> visited) {
+        if (visited.contains(node)) return;
+
+        visited.add(node);
+        System.out.print(node + " ");
+
+        for (Pair p : graph.getOrDefault(node, new ArrayList<>())) {
+            dfs(p.node, visited);
+        }
+    }
+
+    // 3. BFS shortest path (ignore weight)
+    public static List<String> bfsPath(String start, String end) {
+        Queue<List<String>> q = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+
+        q.add(Arrays.asList(start));
+        visited.add(start);
+
+        while (!q.isEmpty()) {
+            List<String> path = q.poll();
+            String last = path.get(path.size() - 1);
+
+            if (last.equals(end)) return path;
+
+            for (Pair nei : graph.getOrDefault(last, new ArrayList<>())) {
+                if (!visited.contains(nei.node)) {
+                    visited.add(nei.node);
+                    List<String> newPath = new ArrayList<>(path);
+                    newPath.add(nei.node);
+                    q.add(newPath);
+                }
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public static void main(String[] args) {
+        addEdge("A","B",5,false);
+        addEdge("B","C",3,true);
+        addEdge("A","D",7,true);
+        addEdge("D","E",2,false);
+        addEdge("C","E",4,false);
+
+        dfs("A", new HashSet<>());
+        System.out.println();
+        System.out.println(bfsPath("A","E"));
+    }
+}
